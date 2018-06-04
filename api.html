@@ -1,0 +1,1313 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>MyPage</title>
+	<meta charset="utf-8">
+    <link rel="stylesheet" href="api.css">
+    <link rel="canonical" href="https://mdbootstrap.com/components/panels/">
+    <link rel="stylesheet" href="https://mdbootstrap.com/wp-content/themes/mdbootstrap4/css/compiled.min.css?ver=4.5.0">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href="https://getbootstrap.com/docs/4.1/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+<!-- font family inclsion-->
+<!-- <link href="https://fonts.googleapis.com/css?family=Goudy+Bookletter+1911" rel="stylesheet"> -->
+<!-- https://mdbootstrap.com/components/panels/-->
+</head>
+<body>
+    <nav class="navbar navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">Linked In API Reference</a>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-10">
+                <section class="content">
+                    <div class="headline1">
+                        <p class="legends">Ad Analytics API's</p>
+                    </div>
+                    <div class="text">
+                        <p class="sub-legends">Retention</p>
+                        <p class="sub-content">
+                            The retention period for data depends on the timeGranularity of your request and type of request (demographics vs. non-demographic analytics):
+                        </p>
+                        <table class="table table-bordered">
+                            <thead class="table-active">
+                                <tr>
+                                    <th scope="col">Freequency</th>
+                                    <th scope="col">Demographic</th>
+                                    <th scope="col">Non-Demographic</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th scope="row">DAILY</th>
+                                    <td>Last 6 months</td>
+                                    <td>Last 10 years</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">MONTHLY</th>
+                                    <td>Last 2 years</td>
+                                    <td>Last 10 years</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">YEARLY</th>
+                                    <td>Last 2 years</td>
+                                    <td>Last 10 years</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">ALL</th>
+                                    <td>Last 2 years</td>
+                                    <td>Last 10 years</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p class="sub-legends">Restrictions</p>
+                        <p class="sub-content">Other restrictions apply based on your query parameters:</p>
+                        <ul class="point-to-remember">
+                            <li>When timeGranularity=ALL, if either the start or end date of a request range is outside of the 6 month daily retention period, the dates will be automatically rounded to month boundaries, and the entire month's data is included in the response. For example, if a request is made on 8/1/2017 with dateRange.start = 1/15/2017 and dateRange.end = 7/15/2017, then dateRange.start will be automatically adjusted to 1/1/2017. This is because 1/15/2017 is outside of a 6 month retention period for daily data, whereas monthly data for January is still within the 2 year retention period.</li>
+                            <li>Demographic pivots does not support carousel and video ads metrics.</li>
+                        </ul>
+                        <p class="sub-legends">Delays</p>
+                        <p class="sub-content">Performance metrics (e.g. metrics about a creative, campaign, or  account) are near realtime. Metrics based on demographics (Company Size, Job Function, etc) may be delayed by a couple hours.</p>
+                        <p class="sub-legends">Accuracy</p>
+                        <p class="sub-content">To protect LinkedIn member privacy, demographic metrics are approximate. The demographic metrics will be within 3 units (impressions, clicks, or conversions) of actual results in almost all cases. </p>
+                        <p class="sub-content">Because metrics are approximate for privacy protection, you may observe minor inconsistencies when:</p>
+                        <ol class="point-to-remember">
+                            <li>comparing similar time ranges, for example, reporting on results over 7 days vs. 8 days</li>
+                            <li>comparing the sum of daily metrics to the full corresponding time period</li>
+                            <li>comparing reporting levels, for example, adding campaign level data and comparing it to account level data</li>
+                        </ol>
+                        <p class="sub-content">To minimize the effect of privacy approximation, select:</p>
+                        <ol class="point-to-remember">
+                            <li>a full time period instead of adding up daily metrics for that time period</li>
+                            <li>the highest reporting level you want to view, for example, select account level data instead of adding up campaign level data</li>
+                        </ol>
+                        <p class="sub-legends">Usage</p>
+                        <p class="sub-content">To use the Ad Analytics API, we will need to provide a few query parameters in the analytics Finder. The parameter q=analytics or q=statistics is always required.</p>
+                        <div class="resource-endpoint-section">
+                        <table class="apis">
+                            <tr>
+                                <td class="method">GET</td>
+                                <td class="endpoint">
+                                        <code>https://api.linkedin.com/v2/adAnalyticsV2?q=analytics&pivot={pivot}&timeGranularity={time}</code>
+                                </td>
+                                <td class="copy-set" id="cp">Copy</td>
+                            </tr>
+                        </table>
+                        </div>
+                        <br>
+                        <p class="sub-legends">Query Parameters</p>
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr class="table-heding">
+                                    <th class="table-active">Query Parameters</th>
+                                    <th class="table-active">Description</th>
+                                    <th class="table-active">Format</th>
+                                    <th class="table-active">Required</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>q</td>
+                                    <td>Designates the query finder. The only allowed values are "analytics" and "statistics". Use "analytics" to specify a single pivot. Use "statistics" to specify up to two pivots.</td>
+                                    <td>STRING</td>
+                                    <td>Yes</td>
+                                </tr>
+                                <tr>
+                                    <td>pivot, pivots</td>
+                                    <td class="subtle">
+                                        <p class="table-text">
+                                        Pivot of results, which each report data point is grouped by. Use "pivot" for query finder type "analytics". Use "pivots" for query finder type "statistics".
+                                        </p>
+                                        <p class="table-text">The below are valid enum values supported by both the "analytics" and "statistics" query finder:</p>
+                                        <ul>
+                                            <li>COMPANY - Group results by advertiser's company.</li>
+                                            <li>ACCOUNT - Group results by account.</li>
+                                            <li>SHARE - Group results by sponsored share.</li>
+                                            <li>CAMPAIGN - Group results by campaign.</li>
+                                            <li>CREATIVE - Group results by creative.</li>
+                                            <li>CAMPAIGN_GROUP - Group results by campaign group.</li>
+                                            <li>CONVERSION - Group results by conversion.</li>
+                                            <li>SERVING_LOCATION - Group results by serving location, onsite or offsite.</li>
+                                            <li>CARD_INDEX - Group results by the index of where a card appears in a carousel ad creative. Metrics are based on the index of the card at the time when the user's action (impression, click, etc.) happened on the creative (Carousel creatives only).</li>
+                                        </ul>
+                                        <p class="table-text">The below demographics enum values are supported only by the "analytics" finder with a single pivot:</p>
+                                        <ul>
+                                            <li>MEMBER_COMPANY_SIZE - Group results by member company size.</li>
+                                            <li>MEMBER_INDUSTRY - Group results by member industry.</li>
+                                            <li>MEMBER_SENIORITY - Group results by member seniority.</li>
+                                            <li>MEMBER_JOB_TITLE - Group results by member job title.</li>
+                                            <li>MEMBER_JOB_FUNCTION - Group results by member job function.</li>
+                                            <li>MEMBER_COUNTRY - Group results by member country.</li>
+                                            <li>MEMBER_REGION - Group results by member region.</li>
+                                            <li>MEMBER_COMPANY - Group results by member company.</li>
+                                        </ul>
+                                    </td>
+                                    <td>String</td>
+                                    <td>Yes</td>
+                                </tr>
+                                <tr>
+                                    <td>dateRange.start</td>
+                                    <td>Represents the inclusive start time range of the analytics. If unset, it will indicate an open range up to the end time.</td>
+                                    <td>
+                                        <a class="table-link-object" href="https://developer.linkedin.com/docs/ref/v2/object-types#Date" target="_blank">Date Object</a>
+                                    </td>
+                                    <td>Yes</td>
+                                </tr>
+                                <tr>
+                                    <td>dateRange.end</td>
+                                    <td>Represents the inclusive end time range of the analytics. Must be after start time if it's present. If unset, it will indicate an open range from start time to everything after.</td>
+                                    <td>
+                                        <a class="table-link-object" href="https://developer.linkedin.com/docs/ref/v2/object-types#Date" target="_blank">Date Object</a>
+                                    </td>
+                                    <td>No</td>
+                                </tr>
+                                <tr>
+                                    <td>timeGranularity</td>
+                                    <td>
+                                        <p class="table-text">Time granularity of results. Valid enum values:</p>
+                                        <ol>
+                                            <li>ALL - Results grouped into a single result across the entire time range of the report.</li>
+                                            <li>DAILY - Results grouped by day.</li>
+                                            <li>MONTHLY - Results grouped by month.</li>
+                                            <li>YEARLY - Results grouped by year.</li>
+                                        </ol>
+                                    </td>
+                                    <td>String</td>
+                                    <td>Yes</td>
+                                </tr>
+                                <tr>
+                                    <td>campaignType</td>
+                                    <td>Match result by a campaign type. Supported types are [TEXT_AD, SPONSORED_UPDATES, SPONSORED_INMAILS, DYNAMIC].  Requires at least one other facet. Defaults to empty.</td>
+                                    <td>Array of Campaign Type Values</td>
+                                    <td>No</td>
+                                </tr>
+                                <tr>
+                                    <td>shares</td>
+                                    <td>Match result by share facets. Defaults to empty.</td>
+                                    <td>
+                                        <a class="table-link-object" href="#" target="_blank">Array ofShare URN</a>
+                                    </td>
+                                    <td>No</td>
+                                </tr>
+                                <tr>
+                                    <td>campaigns</td>
+                                    <td>Match result by campaign facets. Defaults to empty.</td>
+                                    <td>
+                                        <a class="table-link-object" href="#" target="_blank">Array ofSponsored Campaign URN</a>
+                                    </td>
+                                    <td>No</td>
+                                </tr>
+                                <tr>
+                                    <td>creatives</td>
+                                    <td>Match result by creative facets. Defaults to empty.</td>
+                                    <td>
+                                        <a class="table-link-object" href="#" target="_blank">Array ofSponsored Creative URN</a>
+                                    </td>
+                                    <td>No</td>
+                                </tr>
+                                <tr>
+                                    <td>campaignGroups</td>
+                                    <td>Match result by campaign group facets. Defaults to empty.</td>
+                                    <td>
+                                        <a class="table-link-object" href="#" target="_blank">Array of Campaign Group URN</a>
+                                    </td>
+                                    <td>No</td>
+                                </tr>
+                                <tr>
+                                    <td>accounts</td>
+                                    <td>Match result by sponsored ad account facets.  Defaults to empty.</td>
+                                    <td>
+                                        <a class="table-link-object" href="#" target="_blank">Array of Account URN</a>
+                                    </td>
+                                    <td>No</td>
+                                </tr>
+                                <tr>
+                                    <td>companies</td>
+                                    <td>Match result by company facets. Defaults to empty.</td>
+                                    <td>
+                                        <a class="table-link-object" href="#" target="_blank">Array of Company URN</a>
+                                    </td>
+                                    <td>No</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p class="sub-content">Sample request to query for analytics from January 1, 2016 in campaign id 119972645 with a monthly time granularity and pivoting based on creatives:</p>
+                        <div class="resource-endpoint-section">
+                        <table class="apis">
+                            <tr>
+                                <td class="method">GET</td>
+                                <td class="endpoint">
+                                        <code>https://api.linkedin.com/v2/adAnalyticsV2?q=analytics&dateRange.start.month=1&dateRange.start.day=1&dateRange.start.year=2016&timeGranularity=MONTHLY&pivot=CREATIVE&campaigns[0]=urn:li:sponsoredCampaign:119972645</code>
+                                </td>
+                                <td class="copy-set" id="cp">Copy</td>
+                            </tr>
+                        </table>
+                        </div>
+                        <br>
+                        <p class="sub-legends">AdAnalytics Schema</p>
+                        <table class="table table-bordered">
+                        <tbody>
+                            <tr class="table-active">
+                                <td>
+                                    <p>Field Name</p>
+                                </td>
+                                <td>
+                                    <p>Type</p>
+                                </td>
+                                <td>
+                                    <p>Description</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>actionClicks</p>
+                                </td>
+                                <td>
+                                    <p>optional long</p>
+                                </td>
+                                <td>
+                                    <ul>
+                                        <li>
+                                            <p>The count of clicks on the action button of the Sponsored InMail. Sponsored InMail only.</p>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>adUnitClicks</p>
+                                </td>
+                                <td>
+                                    <p>optional long</p>
+                                </td>
+                                <td>
+                                    <ul>
+                                        <li>
+                                            <p>The count of clicks on the ad unit displayed alongside the Sponsored InMail. Sponsored InMail only.</p>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>cardClicks</p>
+                                </td>
+                                <td>
+                                    <p>optional long</p>
+                                </td>
+                                <td>
+                                    <ul>
+                                        <li>
+                                            <p>The number of clicks for each card of a carousel ad. The first card click of the carousel ad results in an immediate cardClick and click, whereas scrolling to other cards and clicking will count as additional cardClick.</p>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>cardImpressions</p>
+                                </td>
+                                <td>
+                                    <p>optional long</p>
+                                </td>
+                                <td>
+                                    <ul>
+                                        <li>
+                                            <p>The number of impressions shown for each card of a carousel ad. The first card of the carousel ad results in an immediate cardImpression and impression, whereas scrolling to other cards will count as additional cardImpressions.</p>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>clicks</p>
+                                </td>
+                                <td>
+                                    <p>long</p>
+                                </td>
+                                <td>
+                                    <ul>
+                                        <li>
+                                            <p>The count of chargeable clicks. Despite not charging for clicks for CPM campaigns, this field still represents those clicks for which we would otherwise charge advertisers (i.e. clicks to view the landing page or company page).</p>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>commentLikes</p>
+                                </td>
+                                <td>
+                                    <p>optional long</p>
+                                </td>
+                                <td>
+                                    <ul>
+                                        <li>
+                                            <p>The count of likes of a comment. Sponsored Updates only.</p>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>comments</p>
+                                </td>
+                                <td>
+                                    <p>optional long</p>
+                                </td>
+                                <td>
+                                    <ul>
+                                        <li>
+                                            <p>The count of comments. Sponsored Updates only.</p>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>companyPageClicks</p>
+                                </td>
+                                <td>
+                                    <p>optional long</p>
+                                </td>
+                                <td>
+                                    <ul>
+                                        <li>
+                                            <p>The count of clicks to view the company page.</p>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>conversionValueInLocalCurrency</p>
+                                </td>
+                                <td>
+                                    <p>optional BigDecimal</p>
+                                </td>
+                                <td>
+                                    <ul>
+                                        <li>
+                                            <p>Value of the conversions in the account's local currency based on rules defined by the advertiser. Conversion value is set by the advertiser at a per conversion level, and aggregated across the query time range.</p>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>costInLocalCurrency</p>
+                                </td>
+                                <td>
+                                    <p>optional <a href="http://rest-search.stg.linkedin.com/rest-search-frontend/apis/TscpReportingService/adAnalyticsV2/com.linkedin.common.BigDecimal">BigDecimal</a></p>
+                                </td>
+                                <td>
+                                    <ul>
+                                        <li>
+                                            <p>Cost in the account's local currency based on the pivot and timeGranularity. For example, this would be spend by member company size per month if the pivot is MEMBER_COMPANY_SIZE and timeGranularity is MONTHLY.</p>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>costInUsd</p>
+                                </td>
+                                <td>
+                                    <p>optional BigDecimal</p>
+                                </td>
+                                <td>
+                                    <ul>
+                                        <li>
+                                            <p>Cost in USD based on the pivot and timeGranularity. For example, this would be spend by campaign on a given day if the pivot is CAMPAIGN and timeGranularity is DAILY.</p>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>dateRange</p>
+                                </td>
+                                <td>
+                                    <p><a href="http://rest-search.stg.linkedin.com/rest-search-frontend/apis/TscpReportingService/adAnalyticsV2/com.linkedin.common.DateRange">DateRange</a></p>
+                                </td>
+                                <td>
+                                    <ul>
+                                        <li>
+                                            <p>Date range covered by the report data point. Date is specified in UTC. Start and end date are inclusive. Start date is required. End date is optional and defaults to today</p>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>externalWebsiteConversions</p>
+                                </td>
+                                <td>
+                                    <p>long, default=&quot;0&quot;</p>
+                                </td>
+                                <td>
+                                    <ul>
+                                        <li>
+                                            <p>The count of conversions indicated by pixel loads on an external advertiser website.</p>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>externalWebsitePostClickConversions</p>
+                                </td>
+                                <td>
+                                    <p>long, default=&quot;0&quot;</p>
+                                </td>
+                                <td>
+                                    <ul>
+                                        <li>
+                                            <p>The count of post-click conversions indicated by pixel loads on an external advertiser website.</p>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>externalWebsitePostViewConversions</p>
+                                </td>
+                                <td>
+                                    <p>long, default=&quot;0&quot;</p>
+                                </td>
+                                <td>
+                                    <ul>
+                                        <li>
+                                            <p>The count of post-view conversions indicated by pixel loads on an external advertiser website.</p>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>follows</p>
+                                </td>
+                                <td>
+                                    <p>optional long</p>
+                                </td>
+                                <td>
+                                    <ul>
+                                        <li>
+                                            <p>The count of follows. Sponsored Updates only.</p>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>fullScreenPlays</p>
+                                </td>
+                                <td>
+                                    <p>optional long</p>
+                                </td>
+                                <td>
+                                    <ul>
+                                        <li>
+                                            <p>A user taps on the video, going into video view mode.</p>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>impressions</p>
+                                </td>
+                                <td>
+                                    <p>long</p>
+                                </td>
+                                <td>
+                                    <ul>
+                                        <li>
+                                            <p>This is the count of 'impressions' for Direct Ads and Sponsored Updates and 'sends' for InMails.</p>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>landingPageClicks</p>
+                                </td>
+                                <td>
+                                    <p>long</p>
+                                </td>
+                                <td>
+                                    <ul>
+                                        <li>
+                                            <p>The count of clicks which take the user to the creative landing page.</p>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>leadGenerationMailContactInfoShares</p>
+                                </td>
+                                <td>
+                                    <p>optional long</p>
+                                </td>
+                                <td>
+                                    <ul>
+                                        <li>
+                                            <p>The number of times a user shared contact info through the One Click Leadgen for Sponsored InMail. Sponsored InMail only.</p>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>leadGenerationMailInterestedClicks</p>
+                                </td>
+                                <td>
+                                    <p>optional long</p>
+                                </td>
+                                <td>
+                                    <ul>
+                                        <li>
+                                            <p>The count of InMail recipients showing interest. Sponsored InMail only.</p>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>likes</p>
+                                </td>
+                                <td>
+                                    <p>optional long</p>
+                                </td>
+                                <td>
+                                    <ul>
+                                        <li>
+                                            <p>The count of likes. Sponsored Updates only.</p>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>oneClickLeadFormOpens</p>
+                                </td>
+                                <td>
+                                    <p>optional long</p>
+                                </td>
+                                <td>
+                                    <ul>
+                                        <li>
+                                            <p>The count of times a user opened the lead form for a One Click Lead Gen campaign.</p>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>oneClickLeads</p>
+                                </td>
+                                <td>
+                                    <p>optional long</p>
+                                </td>
+                                <td>
+                                    <ul>
+                                        <li>
+                                            <p>The count of leads generated through One Click Lead Gen.</p>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>opens</p>
+                                </td>
+                                <td>
+                                    <p>optional long</p>
+                                </td>
+                                <td>
+                                    <ul>
+                                        <li>
+                                            <p>The count of opens of Sponsored InMail. Sponsored InMail only.</p>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>otherEngagements</p>
+                                </td>
+                                <td>
+                                    <p>long</p>
+                                </td>
+                                <td>
+                                    <ul>
+                                        <li>
+                                            <p>The count of user interactions with the ad unit that do not fit into any other more specific category.</p>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>pivotValues</p>
+                                </td>
+                                <td>
+                                    <p>string[], default=&quot;[]&quot;</p>
+                                </td>
+                                <td>
+                                    <ul>
+                                        <li>
+                                            <p>The value of the pivots for a specific record returned. For example, supplying pivots of CREATIVE and CONVERSION will result in a list of records, one for each creative/conversion combination. The pivotValues would contain serialized urns for the specific creative and conversion for a record.</p>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>sends</p>
+                                </td>
+                                <td>
+                                    <p>optional long</p>
+                                </td>
+                                <td>
+                                    <ul>
+                                        <li>
+                                            <p>The count of sends of Sponsored InMail. Sponsored InMail only.</p>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>shares</p>
+                                </td>
+                                <td>
+                                    <p>optional long</p>
+                                </td>
+                                <td>
+                                    <ul>
+                                        <li>
+                                            <p>The count of shares. Sponsored Updates only.</p>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>textUrlClicks</p>
+                                </td>
+                                <td>
+                                    <p>optional long</p>
+                                </td>
+                                <td>
+                                    <ul>
+                                        <li>
+                                            <p>The count of clicks on any links (anchor tags) that were included in the body of the Sponsored InMail. Sponsored InMail only.</p>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>totalEngagements</p>
+                                </td>
+                                <td>
+                                    <p>long</p>
+                                </td>
+                                <td>
+                                    <ul>
+                                        <li>
+                                            <p>The count of all user interactions with the ad unit.</p>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>videoCompletions</p>
+                                </td>
+                                <td>
+                                    <p>optional long</p>
+                                </td>
+                                <td>
+                                    <ul>
+                                        <li>
+                                            <p>The count of video ads that played 97-100% of the video. This includes watches that skipped to this point if the serving location is ON_SITE.</p>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>videoFirstQuartileCompletions</p>
+                                </td>
+                                <td>
+                                    <p>optional long</p>
+                                </td>
+                                <td>
+                                    <ul>
+                                        <li>
+                                            <p>The count of video ads that played through the first quartile of the video. This includes watches that skipped to this point if the serving location is ON_SITE.</p>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>videoMidpointCompletions</p>
+                                </td>
+                                <td>
+                                    <p>optional long</p>
+                                </td>
+                                <td>
+                                    <ul>
+                                        <li>
+                                            <p>The count of video ads that played through the midpoint of the video. This includes watches that skippped to this point if the serving location is ON_SITE.</p>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>videoStarts</p>
+                                </td>
+                                <td>
+                                    <p>optional long</p>
+                                </td>
+                                <td>
+                                    <ul>
+                                        <li>
+                                            <p>The count of video ads that were started by a user.</p>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>videoThirdQuartileCompletions</p>
+                                </td>
+                                <td>
+                                    <p>optional long</p>
+                                </td>
+                                <td>
+                                    <ul>
+                                        <li>
+                                            <p>The count of video ads that played through the third quartile of the video. This includes watches that skipped to this point if the serving location is ON_SITE.</p>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>videoViews</p>
+                                </td>
+                                <td>
+                                    <p>optional long</p>
+                                </td>
+                                <td>
+                                    <ul>
+                                        <li>
+                                            <p>A video ad playing for at least 2 continuous seconds 50% in-view, or a click on the CTA, whichever comes first. An interaction with the video (like going to fullscreen mode) does not count as a view.</p>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>viralCardClicks</p>
+                                </td>
+                                <td>
+                                    <p>optional long</p>
+                                </td>
+                                <td>
+                                    <ul>
+                                        <li>
+                                            <p>The number of viralClicks for each card of a carousel ad. The first viralCardClick of the carousel ad results in an immediate viralCardClick and viralClick, whereas scrolling to other cards and clicking will count as additional viralCardClick.</p>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>viralCardImpressions</p>
+                                </td>
+                                <td>
+                                    <p>optional long</p>
+                                </td>
+                                <td>
+                                    <ul>
+                                        <li>
+                                            <p>The number of viralImpressions shown for each card of a carousel ad. The first card of the carousel ad results in an immediate viralCardImpression and viralImpression, whereas scrolling to other cards will count as additional viralCardImpressions.</p>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>viralClicks</p>
+                                </td>
+                                <td>
+                                    <p>optional long</p>
+                                </td>
+                                <td>
+                                    <ul>
+                                        <li>
+                                            <p>The count of clicks on viral impressions. See viral impressions definition. Sponsored Updates only.</p>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>viralCommentLikes</p>
+                                </td>
+                                <td>
+                                    <p>optional long</p>
+                                </td>
+                                <td>
+                                    <ul>
+                                        <li>
+                                            <p>The count of likes on comments from viral impressions for this activity. See viral impressions definition. Sponsored Updates only.</p>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>viralComments</p>
+                                </td>
+                                <td>
+                                    <p>optional long</p>
+                                </td>
+                                <td>
+                                    <ul>
+                                        <li>
+                                            <p>The count of comments from viral impressions for this activity. See viral impressions definition. Sponsored Updates only.</p>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>viralCompanyPageClicks</p>
+                                </td>
+                                <td>
+                                    <p>optional long</p>
+                                </td>
+                                <td>
+                                    <ul>
+                                        <li>
+                                            <p>The count of clicks to view the company page from viral impressions for this activity. See viral impressions definition. Sponsored Updates only.</p>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>viralExternalWebsiteConversions</p>
+                                </td>
+                                <td>
+                                    <p>optional long</p>
+                                </td>
+                                <td>
+                                    <ul>
+                                        <li>
+                                            <p>The count of conversions indicated by pixel loads on an external advertiser website driven by a viral event. See viral impressions definition.</p>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>viralExternalWebsitePostClickConversions</p>
+                                </td>
+                                <td>
+                                    <p>optional long</p>
+                                </td>
+                                <td>
+                                    <ul>
+                                        <li>
+                                            <p>The count of post-click conversions indicated by pixel loads on an external advertiser website driven by a viral click. See viral impressions definition</p>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>viralExternalWebsitePostViewConversions</p>
+                                </td>
+                                <td>
+                                    <p>optional long</p>
+                                </td>
+                                <td>
+                                    <ul>
+                                        <li>
+                                            <p>The count of post-view conversions indicated by pixel loads on an external advertiser website driven by a viral impression. See viral impressions definition.</p>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>viralFollows</p>
+                                </td>
+                                <td>
+                                    <p>optional long</p>
+                                </td>
+                                <td>
+                                    <ul>
+                                        <li>
+                                            <p>The count of follows from viral impressions for this activity. See viral impressions definition. Sponsored Updates only.</p>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>viralFullScreenPlays</p>
+                                </td>
+                                <td>
+                                    <p>optional long</p>
+                                </td>
+                                <td>
+                                    <ul>
+                                        <li>
+                                            <p>A user taps on the video, going into video view mode. See viralImpressions definition.</p>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>viralImpressions</p>
+                                </td>
+                                <td>
+                                    <p>optional long</p>
+                                </td>
+                                <td>
+                                    <ul>
+                                        <li>
+                                            <p>The count of viral impressions for this activity. Viral impressions are those resulting from a user sharing a sponsored update to their own network of connections. Viral impressions are not counted as regular impressions. Sponsored Updates only.</p>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>viralLandingPageClicks</p>
+                                </td>
+                                <td>
+                                    <p>optional long</p>
+                                </td>
+                                <td>
+                                    <ul>
+                                        <li>
+                                            <p>The count of clicks on viral impressions to take the user to the creative landing page. See viral impressions definition. Sponsored Updates only.</p>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>viralLikes</p>
+                                </td>
+                                <td>
+                                    <p>optional long</p>
+                                </td>
+                                <td>
+                                    <ul>
+                                        <li>
+                                            <p>The count of likes from viral impressions for this activity. See viral impressions definition. Sponsored Updates only.</p>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>viralOneClickLeadFormOpens</p>
+                                </td>
+                                <td>
+                                    <p>optional long</p>
+                                </td>
+                                <td>
+                                    <ul>
+                                        <li>
+                                            <p>The count of times a user opened the lead form for viral impressions from a Lead Gen campaign. See viral impressions definition.</p>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>viralOneClickLeads</p>
+                                </td>
+                                <td>
+                                    <p>optional long</p>
+                                </td>
+                                <td>
+                                    <ul>
+                                        <li>
+                                            <p>The count of leads generated through One Click Lead Gen from viral impressions for this activity. See viral impressions definition.</p>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>viralOtherEngagements</p>
+                                </td>
+                                <td>
+                                    <p>optional long</p>
+                                </td>
+                                <td>
+                                    <ul>
+                                        <li>
+                                            <p>The count of user interactions with viral impressions that do not fit into any other more specific category. See viral impressions definition. Sponsored Updates only.</p>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>viralShares</p>
+                                </td>
+                                <td>
+                                    <p>optional long</p>
+                                </td>
+                                <td>
+                                    <ul>
+                                        <li>
+                                            <p>The count of shares from viral impressions for this activity. See viral impressions definition. Sponsored Updates only.</p>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>viralTotalEngagements</p>
+                                </td>
+                                <td>
+                                    <p>optional long</p>
+                                </td>
+                                <td>
+                                    <ul>
+                                        <li>
+                                            <p>The count of all user interactions with a viral ad unit. See viral impressions definition. Sponsored Updates only.</p>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>viralVideoCompletions</p>
+                                </td>
+                                <td>
+                                    <p>optional long</p>
+                                </td>
+                                <td>
+                                    <ul>
+                                        <li>
+                                            <p>The count of viral video ads that played 97-100% of the video. This includes watches that skipped to this point. See viralImpressions definition.</p>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>viralVideoFirstQuartileCompletions</p>
+                                </td>
+                                <td>
+                                    <p>optional long</p>
+                                </td>
+                                <td>
+                                    <ul>
+                                        <li>
+                                            <p>The count of viral video ads that played through the first quartile of the video. This includes watches that skipped to this point. See viralImpressions definition.</p>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>viralVideoMidpointCompletions</p>
+                                </td>
+                                <td>
+                                    <p>optional long</p>
+                                </td>
+                                <td>
+                                    <ul>
+                                        <li>
+                                            <p>The count of viral video ads that played through the midpoint of the video. This includes watches that skippped to this point. See viralImpressions definition.</p>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>viralVideoStarts</p>
+                                </td>
+                                <td>
+                                    <p>optional long</p>
+                                </td>
+                                <td>
+                                    <ul>
+                                        <li>
+                                            <p>The count of viral video ads that were started by a user. See viralImpressions definition. Since viral videos are automatically played for ON_SITE, this will be the same as viralImpressions if the servingLocation is ON_SITE.</p>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>viralVideoThirdQuartileCompletions</p>
+                                </td>
+                                <td>
+                                    <p>optional long</p>
+                                </td>
+                                <td>
+                                    <ul>
+                                        <li>
+                                            <p>The count of viral video ads that played through the third quartile of the video. This includes watches that skipped to this point. See viralImpressions definition</p>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>viralVideoViews</p>
+                                </td>
+                                <td>
+                                    <p>optional long</p>
+                                </td>
+                                <td>
+                                    <ul>
+                                        <li>
+                                            <p>A viral video ad playing for at least 2 continuous seconds 50% in-view, or a click on the CTA, whichever comes first. An interaction with the video (like going to fullscreen mode) does not count as a view. See viralImpressions definition.</p>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                        </tbody>
+                        </table>
+                        <p class="sub-content">For example, you could fetch the analytics for a particular creative beginning in 2017:</p>
+                        <div class="resource-endpoint-section">
+                        <table class="apis">
+                            <tr>
+                                <td class="method">GET</td>
+                                <td class="endpoint">
+                                        <code>https://api.linkedin.com/v2/adAnalyticsV2?q=analytics&pivot=CREATIVE&dateRange.start.day=1&dateRange.start.month=1&dateRange.start.year=2017&timeGranularity=DAILY&campaigns[0]=urn:li:sponsoredCampaign:1234567</code>
+                                </td>
+                                <td class="copy-set" id="cp">Copy</td>
+                            </tr>
+                        </table>
+                        </div>
+                        <br>
+                        <div class="card">
+                            <div class="card-header deep-orange lighten-1 white-text">Sample Response</div>
+                            <div class="card-body">
+                                <pre class="code">
+                                        {
+                                            "elements": [
+                                                {
+                                                    "externalWebsitePostClickConversions": 0,
+                                                    "adUnitClicks": 0,
+                                                    "companyPageClicks": 15,
+                                                    "viralOneClickLeads": 0,
+                                                    "videoFirstQuartileCompletions": 0,
+                                                    "textUrlClicks": 0,
+                                                    "videoStarts": 0,
+                                                    "viralExternalWebsiteConversions": 0,
+                                                    "videoThirdQuartileCompletions": 0,
+                                                    "pivot": "CAMPAIGN",
+                                                    "likes": 8,
+                                                    "viralComments": 0,
+                                                    "viralVideoThirdQuartileCompletions": 0,
+                                                    "oneClickLeads": 0,
+                                                    "fullScreenPlays": 0,
+                                                    "follows": 0,
+                                                    "viralOneClickLeadFormOpens": 0,
+                                                    "conversionValueInLocalCurrency": "0.0",
+                                                    "viralFollows": 0,
+                                                    "otherEngagements": 1,
+                                                    "viralVideoCompletions": 0,
+                                                    "opens": 0,
+                                                    "leadGenerationMailInterestedClicks": 0,
+                                                    "totalEngagements": 186,
+                                                    "videoViews": 0,
+                                                    "viralImpressions": 86,
+                                                    "viralVideoViews": 0,
+                                                    "dateRange": {
+                                                        "start": {
+                                                            "month": 10,
+                                                            "year": 2017,
+                                                            "day": 12
+                                                        },
+                                                        "end": {
+                                                            "month": 3,
+                                                            "year": 2018,
+                                                            "day": 20
+                                                        }
+                                                    },
+                                                    "costInLocalCurrency": "244.85000",
+                                                    "viralLikes": 0,
+                                                    "viralOtherEngagements": 0,
+                                                    "viralVideoMidpointCompletions": 0,
+                                                    "shares": 0,
+                                                    "viralFullScreenPlays": 0,
+                                                    "videoMidpointCompletions": 0,
+                                                    "viralTotalEngagements": 0,
+                                                    "viralExternalWebsitePostViewConversions": 0,
+                                                    "viralCompanyPageClicks": 0,
+                                                    "actionClicks": 0,
+                                                    "viralShares": 0,
+                                                    "videoCompletions": 0,
+                                                    "pivotValue": "urn:li:sponsoredCampaign:134704654",
+                                                    "externalWebsitePostViewConversions": 0,
+                                                    "comments": 0,
+                                                    "viralVideoStarts": 0,
+                                                    "costInUsd": "244.85000",
+                                                    "landingPageClicks": 67,
+                                                    "oneClickLeadFormOpens": 0,
+                                                    "impressions": 54494,
+                                                    "viralLandingPageClicks": 0,
+                                                    "viralExternalWebsitePostClickConversions": 0,
+                                                    "externalWebsiteConversions": 0,
+                                                    "viralVideoFirstQuartileCompletions": 0,
+                                                    "leadGenerationMailContactInfoShares": 0,
+                                                    "clicks": 177,
+                                                    "viralClicks": 0,
+                                                    "pivotValues": [
+                                                        "urn:li:sponsoredCampaign:1234567"
+                                                    ]
+                                                }
+                                            ],
+                                            "paging": {
+                                                "count": 10,
+                                                "start": 0,
+                                                "links": []
+                                            }
+                                        }
+                                </pre>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="callout-paragraph">
+                            <p class="callout-text">
+                                <i>Please note: </i> Querying analytics for deleted shares that were promoted as sponsored content is not currently supported.  Since creatives for sponsored content reference a particular share, it is possible to retrieve analytics for the deleted share by requesting analytics for the creatives that sponsored the deleted share.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <div class="col-md-1"></div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://getbootstrap.com/docs/4.1/dist/js/bootstrap.min.js" crossorigin="anonymous"></script>
+	<script type="javascript" src="https://getbootstrap.com/docs/4.1/dist/js/bootstrap.min.js"></script>
+</body>
+</html>

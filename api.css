@@ -1,0 +1,56 @@
+@import url('https://fonts.googleapis.com/css?family=Goudy+Bookletter+1911|Open+Sans+Condensed:300|Quicksand');
+
+.headline1 .legends{
+    text-align: center;
+    padding-top: 25px;
+    line-height: 60px;
+}
+.resource-endpoint-section .method{
+    padding: 15px 35px;
+    background-color: dodgerblue;
+    color: whitesmoke;
+    
+}
+.resource-endpoint-section .copy-set{
+    background-color: dodgerblue;
+    padding: 25px 25px;
+    color: whitesmoke;
+}
+.resource-endpoint-section .endpoint{
+    padding: 15px 29px;
+}
+.resource-endpoint-section {
+    background-color: #eae6e6;
+}
+.card-body .code{
+    padding: 5px;
+    margin-left: -250px;
+}
+.callout-paragraph .callout-text{
+    border: 1px solid #d8cdcd;
+    padding: 10px;
+    background-color: #eae6e4;
+}
+.sub-legends{
+    font-family: 'Goudy Bookletter 1911', serif;
+    font-weight: 400;
+    font-size: 1.5rem;
+/*    text-transform: full-width;*/
+}
+.legends{
+    font-family: 'Goudy Bookletter 1911', serif;
+    font-weight: 600;
+    font-size: 2rem;
+}
+.sub-content{
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 400;
+}
+.point-to-remember{
+    font-family: 'Open Sans Condensed', sans-serif;
+    font-kerning: normal;
+}
+.callout-text{
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 400;   
+}
